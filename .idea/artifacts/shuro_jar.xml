@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="shuro:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/shuro_jar</output-path>
+    <root id="archive" name="shuro.jar">
+      <element id="module-output" name="shuro" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../Application/selenium-server-standalone-3.9.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
