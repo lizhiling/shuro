@@ -28,11 +28,14 @@ public class Main {
         int targetDay = scanner.nextInt();
         Date target = buildDate(targetYear, targetMonth, targetDay);
 
+        System.out.println("Employee Number:");
+        String en = scanner.nextLine();
+
         driver = new ChromeDriver();
 
         driver.get("http://192.168.187.207/cws/shuro/main");
         wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.name("uid"))).sendKeys("S308");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.name("uid"))).sendKeys(en);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.name("Login"))).click();
 
         wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("就労管理"))).click();
