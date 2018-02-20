@@ -8,28 +8,25 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
-import java.util.Scanner;
 
 public class Main {
     static private int targetYear = 2018;
     static private WebDriverWait wait;
     static private WebDriver driver;
+    static private final String en = "S210";
+    private static final int targetMonth = 3;
+    private static final int targetDay = 15;
 
     public static void main(String[] args) {
         Properties props = System.getProperties();
         props.setProperty("webdriver.chrome.driver", "chromedriver");
-        Scanner scanner = new Scanner(System.in);
         System.out.println("*********** Take Shuro Records ***********");
-        System.out.println("Input target year:");
-        targetYear = scanner.nextInt();
-        System.out.println("Input target month:");
-        int targetMonth = scanner.nextInt();
-        System.out.println("Input target day:");
-        int targetDay = scanner.nextInt();
+        System.out.println("Target year: " + targetYear);
+        System.out.println("Target month: " + targetMonth);
+        System.out.println("Target day: " + targetDay);
         Date target = buildDate(targetYear, targetMonth, targetDay);
 
-        System.out.println("Employee Number:");
-        String en = scanner.nextLine();
+        System.out.println("Employee Number: " + en);
 
         driver = new ChromeDriver();
 
@@ -64,7 +61,12 @@ public class Main {
                 break;
             }
 
-            takeAttendance(element);
+            try {
+                takeAttendance(element);
+            }catch (Exception e){
+                e.printStackTrace();
+                driver.close();
+            }
             System.out.println("Attendance taken for " + date);
         }
         driver.close();
@@ -93,10 +95,10 @@ public class Main {
         return new Date(year - 1900, month - 1, day);
     }
 
-    private static void takeAttendance(WebElement tr) {
+    private static void takeAttendance(WebElement tr) throws Exception{
         tr.findElement(By.cssSelector("td:nth-of-type(5)")).click();
 
-        while (Integer.parseInt(driver.findElement(By.id("H")).getText()) < 8) {
+        while (Integer.parseInt(wait.until(ExpectedConditions.presenceOfElementLocated(By.id("H"))).getText()) < 4) {
             WebElement copy = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#PM_PANEL_ENTRY_TIME_WIDGET_CONTAINER_AREA > div > div > div:nth-child(5) > span")));
             try {
                 copy.click();
